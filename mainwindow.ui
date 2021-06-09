@@ -176,7 +176,7 @@ padding:0px;
       <number>0</number>
      </property>
      <item>
-      <widget class="CustomListItems" name="listWidget"/>
+      <widget class="QListWidget" name="listWidget"/>
      </item>
     </layout>
    </widget>
@@ -645,11 +645,6 @@ padding:0px;
    <extends>QWidget</extends>
    <header>MyWeb</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CustomListItems</class>
-   <extends>QListWidget</extends>
-   <header location="global">customlistitems</header>
   </customwidget>
  </customwidgets>
  <resources/>
