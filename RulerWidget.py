@@ -1,15 +1,17 @@
 from PyQt5.QtCore import Qt, QSize, QRect, pyqtSlot as Slot
 from PyQt5.QtGui import QPainter, QKeySequence
-from PyQt5.QtWidgets import QApplication, QWidget, QAction
+from PyQt5.QtWidgets import QWidget, QAction, QApplication
 import sys
-
+#
 
 class RulerWidget(QWidget):
 	def __init__(self, *args):
 		super(RulerWidget, self).__init__(*args)
 		self.orientation = Qt.Horizontal
+		self.setStyleSheet("background-color: rgb(255, 255, 255);")
 		self.firstEdge = False
 		self.inv = False
+
 
 	def setOrientation(self, orientation):
 		self.orientation = orientation
@@ -40,7 +42,7 @@ class RulerWidget(QWidget):
 
 		if self.orientation == Qt.Horizontal:
 			if self.inv:
-				tick = self.size().width() - tick - 1
+				tick = self.size().width() - tick - 3
 
 			if not (0 <= tick < self.size().width()):
 				return False
@@ -70,22 +72,22 @@ class RulerWidget(QWidget):
 
 		if self.orientation == Qt.Horizontal:
 			if self.inv:
-				tick = self.size().width() - tick - 1
+				tick = self.size().width() - tick - 5
 
 			if self.firstEdge:
-				tickStart = pos + 10
+				tickStart = pos + 6
 			else:
 				tickStart = self.size().height() - pos - 10
 
 			textFlags = Qt.TextDontClip | Qt.AlignBottom | Qt.AlignHCenter
-			rect = QRect(tick - 10, tickStart, 50, 20)
+			rect = QRect(tick - 6, tickStart, 28, 25)
 			painter.drawText(rect, textFlags, label)
 		else:
 			if self.inv:
 				tick = self.size().height() - tick - 1
 
 			if self.firstEdge:
-				tickStart = pos + 10
+				tickStart = pos + 5
 			else:
 				tickStart = self.size().width() - pos - 5
 
@@ -103,6 +105,7 @@ class RulerWidget(QWidget):
 class RulerWindow(RulerWidget):
 	def __init__(self, *args):
 		super(RulerWindow, self).__init__(*args)
+		self.setStyleSheet("background-color: rgb(255, 255, 255);")
 		self.setToolTip(
 			'Double-click (or press V) to toggle horizontal/vertical.\n'
 			'Press arrows to move window by 1 pixel.\n'
@@ -110,7 +113,7 @@ class RulerWindow(RulerWidget):
 			'Press R to toggle reverse direction of the ruler.'
 		)
 		self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-
+		self.setStyleSheet("background-color: rgb(255, 255, 255);")
 		self.vertAction = QAction('&Vertical', self)
 		self.vertAction.setShortcut(QKeySequence('v'))
 		self.vertAction.setCheckable(True)

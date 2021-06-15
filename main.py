@@ -1,14 +1,19 @@
 import sys
 import re
-from PyQt5 import QtWidgets
+from PyQt5 import *
+from PyQt5 import QtWidgets, QtGui, Qt
+from PyQt5 import QtCore, QtGui
 #from PyQt5.QtWidgets import QMainWindow, QApplication, QFrame, QWidget
 from PyQt5.QtWidgets import *
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineView
+from PyQt5.QtGui import QPainterPath, QPainter, QPen
 from PyQt5 import uic
 from MyWeb import MyWeb
 from bs4 import BeautifulSoup
 from NewDiv import newDiv
-from CollapsibleBox import CollapsibleBox
+from CustomListItems import CustomListItems
+from RulerWidget import RulerWidget
+from DragResize import DragResize
 
 global html
 html = "<html>\n<body style='margin:0;padding:0;'>\n"
@@ -29,10 +34,8 @@ class UI(QMainWindow):
 		print(self.browserw)
 		print(self.browserh)
 		self.widget = self.browser.findChild(QWidget, "centralwidget")
-		#self.items = self.findChild(custom_list_items, "QWidget")
-		self.dock2 = self.findChild(QDockWidget, "dockWidget2")
-		#self.itemHolder = self.findChild(listWidget,"QListWidget")
-		#self.itemHolder.setWidget(self.items)
+		self.ruler = self.findChild(RulerWidget, "RulerWidget")
+		#self.Hrule = self.findChild(horizontalRule, "RulerWidget")
 		self.topbar = self.findChild(QPushButton, "Top")
 		self.topbar.clicked.connect(self.topclick)
 		self.sidebar = self.findChild(QPushButton, "Side")
@@ -44,6 +47,10 @@ class UI(QMainWindow):
 		self.editor = self.findChild(QTextEdit, "textbox")
 		self.editor.setTabStopDistance(50)
 		self.editor.textChanged.connect(self.update)
+		self.open = self.findChild(QAction, "actionOpen")
+		self.open.triggered.connect(self.openfile)
+		self.listitems = self.findChild(CustomListItems, "CustomListItems")
+		self.listview = self.findChild(QListWidget, "listWidget")
 		self.element = self.findChild(QLabel, "element")
 		self.coords = self.findChild(QLabel, "cordinates")
 		self.test = self.findChild(QWidget, "test")
@@ -129,7 +136,7 @@ class UI(QMainWindow):
 		posval, widthval, highval, bgval, colval, leftval, topval, classval = self.parseHtml(foot)
 		mydiv = newDiv(posval, widthval, highval, bgval, colval, leftval, topval, classval)
 		self.update_property_from_myDiv(mydiv)
-		self.list_of_div.append(mydiv), classval
+		self.list_of_div.append(mydiv)#, classval
 		self.print_list_divs()
 
 	def print_list_divs(self):
@@ -170,9 +177,10 @@ class UI(QMainWindow):
 			print("old_height = {}".format(old_height))
 			new_height = self.heightval.text()
 			print("new_height = {}".format(new_height))
-			if "class='{}'".format(mydiv.getClass()) and "height:{}".format(mydiv.getHeight()) in string:
+			if "class='{}'".format(mydiv.getClass()) and "height:{}".format(old_height) in string:
 				v = string.replace(old_height, new_height, 1)
 				self.editor.setPlainText(v)
+				mydiv.setHeight(new_height)
 				#html = v
 
 
@@ -255,6 +263,7 @@ class UI(QMainWindow):
 	def onclick_browser(self, event):
 		print('UI: mouseMoveEvent: x=%d, y=%d' % (event.x(), event.y()))
 		self.coords.setText('x=%d, y=%d' % (event.x(), event.y()))
+		self.item = DragResize(0, 0, 300, 150)
 
 		for mydiv in self.list_of_div:
 			wid = mydiv.getproperties()[1]
@@ -265,16 +274,38 @@ class UI(QMainWindow):
 			high = self.getvalue_from_string(high, self.browserh)
 			startX = int(left)
 			startY = int(top)
+			print(wid, high, left, top)
 			endX = startX + int(wid)
 			endY = startY + int(high)
 
 			if event.x() >= startX and event.x() <= endX and event.y() >= startY and event.y() <= endY:
 				self.element.setText(mydiv.getBackground())
 				self.update_property_from_myDiv(mydiv)
+				self.item = DragResize(int(top), int(left), int(wid), int(high))
+
 			#else:
 			#	self.element.setText("outbound")
 
+	def openfile(self):
+		filename = QFileDialog.getOpenFileName(self, 'Open File','/')
+		file_list = filename[0]  # retrieve the list of files from the tuple.
+		print(file_list)
+		html = open(file_list).read()
+		for line in html:
+			posval, widthval, highval, bgval, colval, leftval, topval, classval = self.parseHtml(line)
+			mydiv = newDiv(posval, widthval, highval, bgval, colval, leftval, topval, classval)
+			self.update_property_from_myDiv(mydiv)
+			self.list_of_div.append(mydiv)
+			self.update_code_from_property(mydiv)
+			print(self.list_of_div)
+		
+		self.editor.setPlainText(html)
 
+
+
+	def paintEvent(self, e):
+		painter = QPainter(self)
+		painter.drawRect(100, 15, 400,200)
 
 
 

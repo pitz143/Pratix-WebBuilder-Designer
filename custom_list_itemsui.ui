@@ -164,7 +164,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="itemname">
                  <property name="styleSheet">
                   <string notr="true">font-size:14px</string>
                  </property>
@@ -174,7 +174,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGraphicsView" name="graphicsView">
+                <widget class="QGraphicsView" name="icon">
                  <property name="maximumSize">
                   <size>
                    <width>25</width>
@@ -188,7 +188,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="itemname_2">
                  <property name="styleSheet">
                   <string notr="true">font-size:14px</string>
                  </property>
@@ -198,7 +198,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGraphicsView" name="graphicsView_2">
+                <widget class="QGraphicsView" name="icon_2">
                  <property name="maximumSize">
                   <size>
                    <width>25</width>
@@ -212,7 +212,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QLabel" name="label_4">
+                <widget class="QLabel" name="itemname_3">
                  <property name="styleSheet">
                   <string notr="true">font-size:14px</string>
                  </property>
@@ -222,7 +222,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGraphicsView" name="graphicsView_4">
+                <widget class="QGraphicsView" name="icon_3">
                  <property name="maximumSize">
                   <size>
                    <width>25</width>
@@ -236,7 +236,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <item>
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="itemname_4">
                  <property name="styleSheet">
                   <string notr="true">font-size:14px</string>
                  </property>
@@ -246,7 +246,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QGraphicsView" name="graphicsView_6">
+                <widget class="QGraphicsView" name="icon_4">
                  <property name="maximumSize">
                   <size>
                    <width>25</width>

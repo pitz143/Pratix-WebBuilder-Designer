@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineView
-from PyQt5 import QtCore
-from PyQt5.QtGui import QPainterPath, QPainter
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QPainterPath, QPainter, QPen
 
 class MyWeb(QWebEngineView):
 	def __init__(self, parent=None):
@@ -37,9 +37,11 @@ class MyWeb(QWebEngineView):
 	def eventFilter(self, source, event):
 		if (self.focusProxy() is source and event.type() == QtCore.QEvent.MouseButtonPress):
 			self.onclick_callback(event)
+			#self.paintEvent(event)
 		return super().eventFilter(source, event)
 
-	def paintEvent(self, event):
-		painter = QPainter(self)
-		painter.setPen(QPen(Qt.black,10,Qt.SolidLine))
-		painter.drawRect(40, 40, 400, 200)
+	#def paintEvent(self, event):
+	#	painter = QPainter(self)
+	#	#painter.setPen(QtGui.QPen(Qt.black,10,Qt.SolidLine))
+	#	painter.setPen(QtGui.QPen(QtGui.QColor(QtCore.Qt.lightGray), 1))#
+	#	painter.drawRect(40, 40, 400, 200)
